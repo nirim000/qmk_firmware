@@ -150,7 +150,7 @@ bool pca9505_readPins(uint8_t slave_addr, pca9505_port_t port, uint8_t* out) {
 
     return true;
 }
-
+/**
 bool pca9505_readPins_all(uint8_t slave_addr, uint16_t* out) {
     uint8_t addr = SLAVE_TO_ADDR(slave_addr);
 
@@ -170,3 +170,4 @@ bool pca9505_readPins_all(uint8_t slave_addr, uint16_t* out) {
     *out = data.u16;
     return true;
 }
+/

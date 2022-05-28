@@ -88,4 +88,4 @@ bool pca9505_readPins(uint8_t slave_addr, pca9505_port_t port, uint8_t* ret);
  *
  *  - slightly faster than multiple readPins
  */
-bool pca9505_readPins_all(uint8_t slave_addr, uint16_t* ret);
+//bool pca9505_readPins_all(uint8_t slave_addr, uint16_t* ret);
