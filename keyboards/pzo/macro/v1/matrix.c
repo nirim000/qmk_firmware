@@ -44,10 +44,8 @@ static void init_pins(void) {
 
 }
 
-static void select_row(uint8_t row) {
-}
+static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row) {
 
-static uint32_t read_cols(void) {
   uint8_t state_1 = 0;
   uint8_t state_2 = 0;
   //uint8_t state_3 = 0;
@@ -61,30 +59,8 @@ static uint32_t read_cols(void) {
 
   // For the XD96 the pins are mapped to port expanders as follows:
   //   all 8 pins port 0 IC2, first 6 pins port 1 IC2, first 4 pins port 1 IC1
-  uint16_t state_u = ((((uint16_t)state_2 & 0b00111111) << 8) | (uint16_t)state_1);
-  uint16_t state_m = 0; 
-      switch (current_row) 
-    {
-        case 0:
-            state_m = ((uint16_t)state_u & 0b0000000000000111);
-            break;
-        case 1:
-            state_m = (((uint16_t)state_u & 0b0000000000111000) >> 3);
-            break;
-        case 2:
-            state_m = (((uint16_t)state_u & 0b0000000111000000) >> 6);
-            break;
-        case 3:
-            state_m = (((uint16_t)state_u & 0b0000111000000000) >> 9);
-            break;
-        case 4:
-            state_m = (((uint16_t)state_u & 0b0111000000000000) >> 12);
-            break;
-    }
-  return (state_m);
-}
+  uint16_t state_u = ((((uint16_t)state_2 & 0b01111111) << 8) | (uint16_t)state_1);
 
-static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row) {
   // Store last value of row prior to reading
   matrix_row_t last_row_value = current_matrix[current_row];
 
@@ -92,10 +68,27 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
   current_matrix[current_row] = 0;
 
   // Select row and wait for row selection to stabilize
-  select_row(current_row);
   wait_us(30);
 
-  current_matrix[current_row] = read_cols();
+ 
+      switch (current_row) 
+    {
+        case 0:
+            current_matrix[current_row] = ((uint16_t)state_u & 0b0000000000000111);
+            break;
+        case 1:
+            current_matrix[current_row] = (((uint16_t)state_u & 0b0000000000111000) >> 3);
+            break;
+        case 2:
+            current_matrix[current_row] = (((uint16_t)state_u & 0b0000000111000000) >> 6);
+            break;
+        case 3:
+            current_matrix[current_row] = (((uint16_t)state_u & 0b0000111000000000) >> 9);
+            break;
+        case 4:
+            current_matrix[current_row] = (((uint16_t)state_u & 0b0111000000000000) >> 12);
+            break;
+    }
 
   // No need to Unselect row as the next `select_row` will blank everything
 
