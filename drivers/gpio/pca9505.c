@@ -47,22 +47,55 @@ void pca9505_init(uint8_t slave_addr) {
 
 bool pca9505_set_config(uint8_t slave_addr, pca9505_port_t port, uint8_t conf) {
     uint8_t addr = SLAVE_TO_ADDR(slave_addr);
+    uint8_t cmd = 0;
     switch (port) 
     {
         case 0:
-            uint8_t cmd  = CMD_CONFIG_0;
+            cmd  = CMD_CONFIG_0;
             break;
         case 1:
-            uint8_t cmd  = CMD_CONFIG_1;
+            cmd  = CMD_CONFIG_1;
             break;
         case 2:
-            uint8_t cmd  = CMD_CONFIG_2;
+            cmd  = CMD_CONFIG_2;
             break;
         case 3:
-            uint8_t cmd  = CMD_CONFIG_3;
+            cmd  = CMD_CONFIG_3;
             break;
         case 4:
-            uint8_t cmd  = CMD_CONFIG_4;
+            cmd  = CMD_CONFIG_4;
+            break;
+    }
+
+
+    i2c_status_t ret = i2c_writeReg(addr, cmd, &conf, sizeof(conf), TIMEOUT);
+    if (ret != I2C_STATUS_SUCCESS) {
+        print("pca9505_set_config::FAILED\n");
+        return false;
+    }
+
+    return true;
+}
+
+bool pca9505_set_polarity(uint8_t slave_addr, pca9505_port_t port, uint8_t conf) {
+    uint8_t addr = SLAVE_TO_ADDR(slave_addr);
+    uint8_t cmd = 0;
+    switch (port) 
+    {
+        case 0:
+            cmd  = CMD_INVERSION_0;
+            break;
+        case 1:
+            cmd  = CMD_INVERSION_1;
+            break;
+        case 2:
+            cmd  = CMD_INVERSION_2;
+            break;
+        case 3:
+            cmd  = CMD_INVERSION_3;
+            break;
+        case 4:
+            cmd  = CMD_INVERSION_4;
             break;
     }
 
@@ -78,22 +111,23 @@ bool pca9505_set_config(uint8_t slave_addr, pca9505_port_t port, uint8_t conf) {
 
 bool pca9505_set_output(uint8_t slave_addr, pca9505_port_t port, uint8_t conf) {
     uint8_t addr = SLAVE_TO_ADDR(slave_addr);
+    uint8_t cmd = 0;
     switch (port) 
     {
         case 0:
-            uint8_t cmd  = CMD_OUTPUT_0;
+            cmd  = CMD_OUTPUT_0;
             break;
         case 1:
-            uint8_t cmd  = CMD_OUTPUT_1;
+            cmd  = CMD_OUTPUT_1;
             break;
         case 2:
-            uint8_t cmd  = CMD_OUTPUT_2;
+            cmd  = CMD_OUTPUT_2;
             break;
         case 3:
-            uint8_t cmd  = CMD_OUTPUT_3;
+            cmd  = CMD_OUTPUT_3;
             break;
         case 4:
-            uint8_t cmd  = CMD_OUTPUT_4;
+            cmd  = CMD_OUTPUT_4;
             break;
     }
     
@@ -106,7 +140,7 @@ bool pca9505_set_output(uint8_t slave_addr, pca9505_port_t port, uint8_t conf) {
 
     return true;
 }
-
+/**
 bool pca9505_set_output_all(uint8_t slave_addr, uint8_t confA, uint8_t confB) {
     uint8_t addr    = SLAVE_TO_ADDR(slave_addr);
     uint8_t conf[2] = {confA, confB};
@@ -119,25 +153,26 @@ bool pca9505_set_output_all(uint8_t slave_addr, uint8_t confA, uint8_t confB) {
 
     return true;
 }
-
+*/
 bool pca9505_readPins(uint8_t slave_addr, pca9505_port_t port, uint8_t* out) {
     uint8_t addr = SLAVE_TO_ADDR(slave_addr);
+    uint8_t cmd = 0;
     switch (port) 
     {
         case 0:
-            uint8_t cmd  = CMD_INPUT_0;
+            cmd  = CMD_INPUT_0;
             break;
         case 1:
-            uint8_t cmd  = CMD_INPUT_1;
+            cmd  = CMD_INPUT_1;
             break;
         case 2:
-            uint8_t cmd  = CMD_INPUT_2;
+            cmd  = CMD_INPUT_2;
             break;
         case 3:
-            uint8_t cmd  = CMD_INPUT_3;
+            cmd  = CMD_INPUT_3;
             break;
         case 4:
-            uint8_t cmd  = CMD_INPUT_4;
+            cmd  = CMD_INPUT_4;
             break;
     }
 
@@ -170,4 +205,4 @@ bool pca9505_readPins_all(uint8_t slave_addr, uint16_t* out) {
     *out = data.u16;
     return true;
 }
-/
+*/

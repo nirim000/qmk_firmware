@@ -44,6 +44,14 @@ typedef enum {
  * Helpers for set_config
  */
 enum {
+    ALL_NORMAL = 0,
+    ALL_INVERTED  = 0xFF,
+};
+
+/**
+ * Helpers for set_config
+ */
+enum {
     ALL_OUTPUT = 0,
     ALL_INPUT  = 0xFF,
 };
@@ -67,6 +75,11 @@ void pca9505_init(uint8_t slave_addr);
 bool pca9505_set_config(uint8_t slave_addr, pca9505_port_t port, uint8_t conf);
 
 /**
+ * Configure polarity to a given port
+ */
+bool pca9505_set_polarity(uint8_t slave_addr, pca9505_port_t port, uint8_t conf);
+
+/**
  * Write high/low to a given port
  */
 bool pca9505_set_output(uint8_t slave_addr, pca9505_port_t port, uint8_t conf);
@@ -76,7 +89,7 @@ bool pca9505_set_output(uint8_t slave_addr, pca9505_port_t port, uint8_t conf);
  *
  *  - slightly faster than multiple set_output
  */
-bool pca9505_set_output_all(uint8_t slave_addr, uint8_t confA, uint8_t confB);
+//bool pca9505_set_output_all(uint8_t slave_addr, uint8_t confA, uint8_t confB);
 
 /**
  * Read state of a given port
