@@ -13,10 +13,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [0] = LAYOUT_ortho_3x5(
-        KC_A,   KC_B,   KC_C,
-        KC_D,   KC_E,   KC_F,
+        RGB_MODE_REVERSE,   RGB_VAI,   RGB_MODE_FORWARD,
+        KC_D,   RGB_VAD,   KC_F,
         KC_G,   KC_H,   KC_I,
         KC_J,   KC_Q,   KC_M,
-        KC_L,   KC_N,   KC_O
+        KC_L,   KC_N,   RGB_TOG
     )
 };

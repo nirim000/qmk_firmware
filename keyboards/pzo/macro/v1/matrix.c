@@ -66,11 +66,7 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
 
   // Clear data in matrix row
   current_matrix[current_row] = 0;
-
-  // Select row and wait for row selection to stabilize
-  wait_us(30);
-
- 
+  
       switch (current_row) 
     {
         case 0:
