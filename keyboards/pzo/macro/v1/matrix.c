@@ -66,8 +66,8 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
 
   // Clear data in matrix row
   current_matrix[current_row] = 0;
-  
-      switch (current_row) 
+
+      switch (current_row)
     {
         case 0:
             current_matrix[current_row] = ((uint16_t)state_u & 0b0000000000000111);
