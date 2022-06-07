@@ -27,8 +27,8 @@
 //drivers options
 
 //led
-#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 200
-#define RGBLIGHT_LIMIT_VAL 120
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 155
+#define RGBLIGHT_LIMIT_VAL 155
 #define RGB_DI_PIN B13
 #define RGBLED_NUM 15
 #define DRIVER_LED_TOTAL 15
@@ -38,14 +38,31 @@
 #define RGB_MATRIX_KEYRELEASES
 #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_TYPING_HEATMAP
 
+//joystick
+#define ANALOG_JOYSTICK_Y_AXIS_PIN A7
+#define ANALOG_JOYSTICK_X_AXIS_PIN B0
+#define POINTING_DEVICE_INVERT_X
+
+//oled
+#define OLED_DISPLAY_128X64
+#define OLED_TIMEOUT 10000
 
 //rotary
 #define ENCODERS_PAD_A { B9, A5 }
 #define ENCODERS_PAD_B { B8, A6 }
 
+//eeprom
+//#undef FEE_PAGE_BASE_ADDRESS
+//#define FEE_PAGE_BASE_ADDRESS 0x08008000
+
+//other features
+#define BOOTMAGIC_LITE_ROW 0
+#define BOOTMAGIC_LITE_COLUMN 0
+#define QMK_KEYS_PER_SCAN 10
+
 
 /* key matrix size */
-#define MATRIX_ROWS 5
+#define MATRIX_ROWS 6
 #define MATRIX_COLS 3
 
 /*
@@ -133,4 +150,3 @@
 #endif
 
 //led effects settings
-#define RGB_MATRIX_TYPING_HEATMAP_SLIM

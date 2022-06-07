@@ -32,16 +32,19 @@ static void init_pins(void) {
   // reverse all cols - IC2 all inverted
   pca9505_set_polarity(IC1, PCA9505_PORT0, ALL_INVERTED);//same as initial state
   pca9505_set_polarity(IC1, PCA9505_PORT1, ALL_INVERTED);//same as initial state
- // pca9505_set_polarity(IC1, PCA9505_PORT2, ALL_INVERTED);//same as initial state
+  // pca9505_set_polarity(IC1, PCA9505_PORT2, ALL_INVERTED);//same as initial state
   //pca9505_set_polarity(IC1, PCA9505_PORT3, ALL_INVERTED);//same as initial state
   //pca9505_set_polarity(IC1, PCA9505_PORT4, ALL_INVERTED);//same as initial state
-// init all cols low - IC2 all input
+  // init all cols low - IC2 all input
   pca9505_set_config(IC1, PCA9505_PORT0, ALL_INPUT);//same as initial state
   pca9505_set_config(IC1, PCA9505_PORT1, ALL_INPUT);//same as initial state
   //pca9505_set_config(IC1, PCA9505_PORT2, ALL_INPUT);//same as initial state
   //pca9505_set_config(IC1, PCA9505_PORT3, ALL_INPUT);//same as initial state
   //pca9505_set_config(IC1, PCA9505_PORT4, ALL_INPUT);//same as initial state
-
+  // init encoders botton
+  setPinInputHigh(B1);
+  setPinInput(B2);
+  //setPinInputHigh(B10);
 }
 
 static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row) {
@@ -51,15 +54,20 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
   //uint8_t state_3 = 0;
   //uint8_t state_4 = 0;
   //uint8_t state_5 = 0;
+  uint8_t state_e1 = 0;
+  uint8_t state_e2 = 0;
+  //uint8_t state_e3 = 0;
   pca9505_readPins(IC1, PCA9505_PORT0, &state_1);
   pca9505_readPins(IC1, PCA9505_PORT1, &state_2);
   //pca9505_readPins(IC1, PCA9505_PORT2, &state_3);
   //pca9505_readPins(IC1, PCA9505_PORT3, &state_4);
   //pca9505_readPins(IC1, PCA9505_PORT4, &state_5);
-
-  // For the XD96 the pins are mapped to port expanders as follows:
-  //   all 8 pins port 0 IC2, first 6 pins port 1 IC2, first 4 pins port 1 IC1
+  state_e1 = readPin(B1);
+  state_e2 = readPin(B2);
+  //state_e3 = readPin(B10);
+  //   all 8 pins port 0 IC1, all 8 pins port 1 IC1
   uint16_t state_u = ((((uint16_t)state_2 & 0b01111111) << 8) | (uint16_t)state_1);
+  uint16_t state_e = (((uint16_t)state_e2 << 1) | ((uint16_t)state_e1 ^ 0b0000001));
 
   // Store last value of row prior to reading
   matrix_row_t last_row_value = current_matrix[current_row];
@@ -83,6 +91,9 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
             break;
         case 4:
             current_matrix[current_row] = (((uint16_t)state_u & 0b0111000000000000) >> 12);
+            break;
+        case 5:
+            current_matrix[current_row] = ((uint16_t)state_e & 0b0000000000000011);
             break;
     }
 
